@@ -16,12 +16,12 @@ public class Tests
     }
 
     [Test]
-    public void CoordinateTest()
+    public async Task CoordinateTest()
     {
         _webdownloader.Setup(x => x.GetStringByUrl(It.IsAny<string>()))
-            .Returns("[{\"lat\": 47.4979937,\n    \"lon\": 19.0403594}]");
+            .ReturnsAsync("[{\"lat\": 47.4979937,\n    \"lon\": 19.0403594}]");
 
-        var result = _geocodingService.GetCoordinatesByCity("Test");
+        var result = await _geocodingService.GetCoordinatesByCity("Test");
         Assert.That(result.Longitude, Is.EqualTo(19.0403594).Within(0.000001));
         Assert.That(result.Latitude, Is.EqualTo(47.4979937).Within(0.000001));
     }
@@ -29,8 +29,8 @@ public class Tests
     public void ExceptionWhenCityNotFound()
     {
         _webdownloader.Setup(x => x.GetStringByUrl(It.IsAny<string>()))
-            .Returns("[]");
+            .ReturnsAsync("[]");
         
-        Assert.Throws<CityNotFoundException>(() => _geocodingService.GetCoordinatesByCity("Test"));
+        Assert.ThrowsAsync<CityNotFoundException>( async () => await _geocodingService.GetCoordinatesByCity("Test"));
     }
 }

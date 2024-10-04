@@ -4,10 +4,12 @@ namespace SolarWatch.Services;
 
 public class WebDownloader : IWebDownloader
 {
-    public string GetStringByUrl(string url)
+    public async Task<string> GetStringByUrl(string url)
     {
-        using var client = new WebClient();
+        using var client = new HttpClient();
 
-        return client.DownloadString(url);
+        var response = await client.GetAsync(url);
+
+        return await response.Content.ReadAsStringAsync();
     }
 }

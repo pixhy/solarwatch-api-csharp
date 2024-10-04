@@ -19,14 +19,14 @@ public class SunriseSunsetServiceTest
     }
 
     [Test]
-    public void GetSunriseAndSunsetTest()
+    public async Task GetSunriseAndSunsetTest()
     {
         _geocodingServiceMock.Setup(x => x.GetCoordinatesByCity("test"))
-            .Returns(new Coordinate(47.4979937, 19.0403594));
-        _webdownloader.Setup(x => x.GetStringByUrl(It.IsAny<string>())).Returns(
+            .ReturnsAsync(new Coordinate(47.4979937, 19.0403594));
+        _webdownloader.Setup(x => x.GetStringByUrl(It.IsAny<string>())).ReturnsAsync(
             """{"results":{"sunrise": "04:39:15", "sunset": "16:28:44"}}""");
 
-        var result =
+        var result = await
             _sunriseSunsetService.GetSunriseAndSunset("test",
                 DateOnly.Parse("2024-09-29"));
         Assert.That(new TimeOnly(4, 39, 15), Is.EqualTo(result.Sunrise));

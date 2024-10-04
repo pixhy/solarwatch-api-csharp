@@ -3,16 +3,16 @@ using System.Text.Json;
 
 namespace SolarWatch.Services;
 
-public class GeocodingService(string apikey, IWebDownloader webDownloader)
+public class GeocodingService(string apikey, IWebDownloader webDownloader) : IGeocodingService
 {
-    public Coordinate GetCoordinatesByCity(string city)
+    public async Task<Coordinate> GetCoordinatesByCity(string city)
     {
         var url =
             $"http://api.openweathermap.org/geo/1.0/direct?q={city}&limit=1&appid={apikey}";
 
-        string cityData = webDownloader.GetStringByUrl(url);
+        var cityData = webDownloader.GetStringByUrl(url);
 
-        return ProcessCityData(cityData);
+        return ProcessCityData(await cityData);
     }
 
     private Coordinate ProcessCityData(string data)

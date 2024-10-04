@@ -2,5 +2,5 @@ namespace SolarWatch.Services;
 
 public interface IWebDownloader
 {
-    public string GetStringByUrl(string url);
+    public Task<string> GetStringByUrl(string url);
 }

@@ -12,7 +12,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
-builder.Services.AddScoped<GeocodingService>(provider =>
+builder.Services.AddScoped<IGeocodingService>(provider =>
 {
     var configuration = provider.GetRequiredService<IConfiguration>();
     var key =
@@ -20,7 +20,7 @@ builder.Services.AddScoped<GeocodingService>(provider =>
     return new GeocodingService(key, new WebDownloader());
 });
 
-builder.Services.AddScoped<SunriseSunsetService>(provider =>
+builder.Services.AddScoped<ISunriseSunsetService>(provider =>
 {
     var geocodingService = provider.GetRequiredService<IGeocodingService>();
     return new SunriseSunsetService(geocodingService, new WebDownloader());

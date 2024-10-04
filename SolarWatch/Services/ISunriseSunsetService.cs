@@ -2,5 +2,5 @@ namespace SolarWatch.Services;
 
 public interface ISunriseSunsetService
 {
-    public SunriseAndSunset GetSunriseAndSunset(string city, DateOnly date);
+    public Task<SunriseAndSunset> GetSunriseAndSunset(string city, DateOnly date);
 }

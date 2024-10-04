@@ -5,15 +5,15 @@ using Microsoft.AspNetCore.Authentication;
 
 namespace SolarWatch.Services;
 
-public class SunriseSunsetService(IGeocodingService geocodingService, IWebDownloader webDownloader)
+public class SunriseSunsetService(IGeocodingService geocodingService, IWebDownloader webDownloader) : ISunriseSunsetService
 {
     private IGeocodingService _geocodingService = geocodingService;
     private IWebDownloader _webDownloader = webDownloader;
 
 
-    public SunriseAndSunset GetSunriseAndSunset(string city, DateOnly date)
+    public async Task<SunriseAndSunset> GetSunriseAndSunset(string city, DateOnly date)
     {
-        Coordinate coordinates = _geocodingService.GetCoordinatesByCity(city);
+        Coordinate coordinates = await _geocodingService.GetCoordinatesByCity(city);
         var lat = coordinates.Latitude.ToString(CultureInfo.InvariantCulture);
         var lng = coordinates.Longitude.ToString(CultureInfo.InvariantCulture);
         var dateString = date.ToString("yyyy-MM-dd");
@@ -23,7 +23,7 @@ public class SunriseSunsetService(IGeocodingService geocodingService, IWebDownlo
         
         var sunriseSunsetData = _webDownloader.GetStringByUrl(url);
 
-        return ProcessSunriseAndSunsetData(sunriseSunsetData);
+        return ProcessSunriseAndSunsetData(await sunriseSunsetData);
     }
     
     private SunriseAndSunset ProcessSunriseAndSunsetData(string data)
