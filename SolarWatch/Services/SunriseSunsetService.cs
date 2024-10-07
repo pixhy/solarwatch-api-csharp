@@ -5,25 +5,32 @@ using Microsoft.AspNetCore.Authentication;
 
 namespace SolarWatch.Services;
 
-public class SunriseSunsetService(IGeocodingService geocodingService, IWebDownloader webDownloader) : ISunriseSunsetService
+public class SunriseSunsetService(IGeocodingService geocodingService, IWebDownloader webDownloader, ISolarWatchRepository solarWatchRepository) : ISunriseSunsetService
 {
-    private IGeocodingService _geocodingService = geocodingService;
-    private IWebDownloader _webDownloader = webDownloader;
-
-
     public async Task<SunriseAndSunset> GetSunriseAndSunset(string city, DateOnly date)
     {
-        Coordinate coordinates = await _geocodingService.GetCoordinatesByCity(city);
-        var lat = coordinates.Latitude.ToString(CultureInfo.InvariantCulture);
-        var lng = coordinates.Longitude.ToString(CultureInfo.InvariantCulture);
+        City cityData = await geocodingService.GetCityByName(city);
+
+        SunriseAndSunset? citySunriseSunset =
+            solarWatchRepository.GetSunriseAndSunset(cityData, date);
+        if (citySunriseSunset != null)
+        {
+            return citySunriseSunset;
+        }
+        
+        var lat = cityData.Latitude.ToString(CultureInfo.InvariantCulture);
+        var lng = cityData.Longitude.ToString(CultureInfo.InvariantCulture);
         var dateString = date.ToString("yyyy-MM-dd");
         
         string url =
              $"https://api.sunrise-sunset.org/json?lat={lat}&lng={lng}&date={dateString}";
         
-        var sunriseSunsetData = _webDownloader.GetStringByUrl(url);
+        var sunriseSunsetData = webDownloader.GetStringByUrl(url);
 
-        return ProcessSunriseAndSunsetData(await sunriseSunsetData);
+        var result = ProcessSunriseAndSunsetData(await sunriseSunsetData);
+        
+        solarWatchRepository.AddSunriseAndSunset(result);
+        return result;
     }
     
     private SunriseAndSunset ProcessSunriseAndSunsetData(string data)
