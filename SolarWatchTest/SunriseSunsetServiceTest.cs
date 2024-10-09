@@ -9,14 +9,14 @@ public class SunriseSunsetServiceTest
     private Mock<IGeocodingService> _geocodingServiceMock;
     private Mock<IWebDownloader> _webdownloader;
     private SunriseSunsetService _sunriseSunsetService;
-    private Mock<ISolarWatchRepository> _solarwatchRepository;
+    private Mock<IUnitOfWork> _unitOfWork;
     
     [SetUp]
     public void Setup()
     {
         _geocodingServiceMock = new Mock<IGeocodingService>();
         _webdownloader = new Mock<IWebDownloader>();
-        _sunriseSunsetService = new SunriseSunsetService(_geocodingServiceMock.Object, _webdownloader.Object, _solarwatchRepository.Object);
+        _sunriseSunsetService = new SunriseSunsetService(_geocodingServiceMock.Object, _webdownloader.Object, _unitOfWork.Object);
     }
 
     [Test]

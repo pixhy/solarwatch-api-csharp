@@ -3,11 +3,11 @@ using System.Text.Json;
 
 namespace SolarWatch.Services;
 
-public class GeocodingService(string apikey, IWebDownloader webDownloader, ISolarWatchRepository solarWatchRepository) : IGeocodingService
+public class GeocodingService(string apikey, IWebDownloader webDownloader, IUnitOfWork unitOfWork) : IGeocodingService
 {
     public async Task<City> GetCityByName(string city)
     {
-        var cityObj = solarWatchRepository.GetCityByName(city);
+        var cityObj = unitOfWork.Cities.GetCityByName(city);
         if (cityObj != null)
         {
             return cityObj;
@@ -18,7 +18,7 @@ public class GeocodingService(string apikey, IWebDownloader webDownloader, ISola
         var cityData = webDownloader.GetStringByUrl(url);
 
         var newCity = ProcessCityData(await cityData);
-        solarWatchRepository.AddCity(newCity);
+        unitOfWork.Cities.AddCity(newCity);
         return newCity;
     }
 

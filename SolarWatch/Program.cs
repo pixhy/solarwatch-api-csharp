@@ -16,24 +16,28 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IGeocodingService>(provider =>
 {
     var configuration = provider.GetRequiredService<IConfiguration>();
-    var solarWatchRepository = provider.GetRequiredService<ISolarWatchRepository>();
+    var unitOfWork = provider.GetRequiredService<IUnitOfWork>();
     var key =
         configuration.GetValue<string>("OpenWeatherMapAPIKey");
-    return new GeocodingService(key, new WebDownloader(), solarWatchRepository);
+    return new GeocodingService(key, new WebDownloader(), unitOfWork);
 });
 
 builder.Services.AddScoped<ISunriseSunsetService>(provider =>
 {
     var geocodingService = provider.GetRequiredService<IGeocodingService>();
-    var solarWatchRepository = provider.GetRequiredService<ISolarWatchRepository>();
-    return new SunriseSunsetService(geocodingService, new WebDownloader(), solarWatchRepository);
+    var  unitOfWork = provider.GetRequiredService<IUnitOfWork>();
+    return new SunriseSunsetService(geocodingService, new WebDownloader(), unitOfWork);
 });
-builder.Services.AddScoped<ISolarWatchRepository, SolarWatchRepository>();
+
 builder.Services.AddDbContext<SolarWatchApiContext>(options =>
 {
     options.UseSqlServer(
         "Server=localhost,1433;Database=Solarwatch;User Id=sa;Password=Cicacica!;Encrypt=false;");
+    
 });
+builder.Services.AddScoped<ISunriseSunsetRepository, SunriseSunsetRepository>();
+builder.Services.AddScoped<ICityRepository, CityRepository>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
 

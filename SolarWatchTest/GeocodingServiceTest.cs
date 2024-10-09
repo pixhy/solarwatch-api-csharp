@@ -7,13 +7,13 @@ public class Tests
 {
     private Mock<IWebDownloader> _webdownloader;
     private GeocodingService _geocodingService;
-    private Mock<ISolarWatchRepository> _solarwatchRepository;
+    private Mock<IUnitOfWork> _unitOfWork;
     
     [SetUp]
     public void Setup()
     {
         _webdownloader = new Mock<IWebDownloader>();
-        _geocodingService = new GeocodingService("", _webdownloader.Object, _solarwatchRepository.Object);
+        _geocodingService = new GeocodingService("", _webdownloader.Object, _unitOfWork.Object);
     }
 
     [Test]

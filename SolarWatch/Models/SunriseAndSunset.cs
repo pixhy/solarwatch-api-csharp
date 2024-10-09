@@ -3,14 +3,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SolarWatch.Services;
 
-public class SunriseAndSunset(TimeOnly sunrise, TimeOnly sunset)
+public class SunriseAndSunset
 {
-    [Key]
+    //[Key]
     public int Id { get; init; }
     
-    public int CityId { get; set; }
-    public City City {get ; set; }
-    public DateOnly Date { get; set; }
-    public TimeOnly Sunrise { get; set; } = sunrise;
-    public TimeOnly Sunset { get; set; } = sunset;
+    public int CityId { get; init; }
+    public City City {get ; init; }
+    public DateOnly Date { get; init; }
+    public TimeOnly Sunrise { get; init; }
+    public TimeOnly Sunset { get; init; }
 }

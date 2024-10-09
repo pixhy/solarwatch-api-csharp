@@ -5,14 +5,14 @@ using Microsoft.AspNetCore.Authentication;
 
 namespace SolarWatch.Services;
 
-public class SunriseSunsetService(IGeocodingService geocodingService, IWebDownloader webDownloader, ISolarWatchRepository solarWatchRepository) : ISunriseSunsetService
+public class SunriseSunsetService(IGeocodingService geocodingService, IWebDownloader webDownloader, IUnitOfWork unitOfWork) : ISunriseSunsetService
 {
     public async Task<SunriseAndSunset> GetSunriseAndSunset(string city, DateOnly date)
     {
         City cityData = await geocodingService.GetCityByName(city);
 
         SunriseAndSunset? citySunriseSunset =
-            solarWatchRepository.GetSunriseAndSunset(cityData, date);
+            unitOfWork.SunriseSunsets.GetSunriseAndSunset(cityData, date);
         if (citySunriseSunset != null)
         {
             return citySunriseSunset;
@@ -27,19 +27,29 @@ public class SunriseSunsetService(IGeocodingService geocodingService, IWebDownlo
         
         var sunriseSunsetData = webDownloader.GetStringByUrl(url);
 
-        var result = ProcessSunriseAndSunsetData(await sunriseSunsetData);
-        
-        solarWatchRepository.AddSunriseAndSunset(result);
+        var sunriseAndSunset = ProcessSunriseAndSunsetData(await sunriseSunsetData);
+
+        var result = new SunriseAndSunset()
+        {
+            Sunrise = sunriseAndSunset.sunrise,
+            Sunset = sunriseAndSunset.sunset,
+            City = cityData,
+            Date = date
+        };
+        unitOfWork.SunriseSunsets.AddSunriseAndSunset(result);
         return result;
     }
     
-    private SunriseAndSunset ProcessSunriseAndSunsetData(string data)
+    private (TimeOnly sunrise, TimeOnly sunset) ProcessSunriseAndSunsetData(string data)
     {
         JsonDocument json = JsonDocument.Parse(data);
         JsonElement result = json.RootElement.GetProperty("results");
         JsonElement sunrise = result.GetProperty("sunrise");
         JsonElement sunset = result.GetProperty("sunset");
         
-        return new SunriseAndSunset(TimeOnly.Parse(sunrise.GetString()!), TimeOnly.Parse(sunset.GetString()!));
+        return (
+            TimeOnly.Parse(sunrise.GetString()!),
+            TimeOnly.Parse(sunset.GetString()!)
+        );
     }
 }

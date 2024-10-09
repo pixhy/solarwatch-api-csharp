@@ -1,6 +1,6 @@
 namespace SolarWatch.Services;
 
-public interface ISolarWatchRepository
+public interface ICityRepository
 {
     IEnumerable<City> GetAllCities();
     City? GetCityByName(string name);
@@ -8,8 +8,4 @@ public interface ISolarWatchRepository
     void AddCity(City city);
     void DeleteCity(City city);
     void UpdateCity(City city);
-
-    SunriseAndSunset? GetSunriseAndSunset(City city, DateOnly date);
-    void AddSunriseAndSunset(SunriseAndSunset sunriseAndSunset);
-
 }

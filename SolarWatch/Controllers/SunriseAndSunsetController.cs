@@ -7,13 +7,13 @@ namespace SolarWatch.Controllers;
 [ApiController]
 [Route ("api/v1/[controller]")]
 public class SunriseAndSunsetController(
-   ISunriseSunsetService sunriseSunsetService, ISolarWatchRepository solarWatchRepository)
+   ISunriseSunsetService sunriseSunsetService, ISunriseSunsetRepository sunriseSunsetRepository)
    : ControllerBase
 {
    private ISunriseSunsetService _sunriseSunsetService = sunriseSunsetService;
 
-   private ISolarWatchRepository _solarWatchRepository =
-      solarWatchRepository;
+   private ISunriseSunsetRepository _sunriseSunsetRepository =
+      sunriseSunsetRepository;
 
    [HttpGet]
    public async Task<IActionResult> GetSunriseAndSunset(string city, string date)
