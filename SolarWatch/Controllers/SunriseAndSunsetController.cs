@@ -7,36 +7,29 @@ namespace SolarWatch.Controllers;
 [ApiController]
 [Route ("api/v1/[controller]")]
 public class SunriseAndSunsetController(
-   ISunriseSunsetService sunriseSunsetService, ISunriseSunsetRepository sunriseSunsetRepository)
+   ISunriseSunsetService sunriseSunsetService)
    : ControllerBase
 {
    private ISunriseSunsetService _sunriseSunsetService = sunriseSunsetService;
 
-   private ISunriseSunsetRepository _sunriseSunsetRepository =
-      sunriseSunsetRepository;
-
    [HttpGet]
-   public async Task<IActionResult> GetSunriseAndSunset(string city, string date)
+   public async Task<ActionResult<SunriseAndSunset>> GetSunriseAndSunset(string city, string date)
    {
       DateOnly dateObject;
       if (!DateOnly.TryParse(date, out dateObject))
       {
          return BadRequest("Wrong date");
       }
-
-      SunriseAndSunset? sunriseAndSunset = null;
-      if (sunriseAndSunset == null)
+      
+      try
       {
-         try
-         {
-            sunriseAndSunset = await _sunriseSunsetService.GetSunriseAndSunset(city, dateObject);
-            
-         }
-         catch (CityNotFoundException)
-         {
-            return NotFound("City not found");
-         }
+         SunriseAndSunset? sunriseAndSunset = await _sunriseSunsetService.GetSunriseAndSunset(city, dateObject);
+         
+         return Ok(sunriseAndSunset);
       }
-      return Ok(sunriseAndSunset);
+      catch (CityNotFoundException)
+      {
+         return NotFound("City not found");
+      }
    }
 }

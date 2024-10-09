@@ -10,13 +10,18 @@ public class SunriseSunsetServiceTest
     private Mock<IWebDownloader> _webdownloader;
     private SunriseSunsetService _sunriseSunsetService;
     private Mock<IUnitOfWork> _unitOfWork;
+    private Mock<ISunriseSunsetRepository> _sunriseSunsetRepository;
     
     [SetUp]
     public void Setup()
     {
         _geocodingServiceMock = new Mock<IGeocodingService>();
+        _unitOfWork = new Mock<IUnitOfWork>();
         _webdownloader = new Mock<IWebDownloader>();
         _sunriseSunsetService = new SunriseSunsetService(_geocodingServiceMock.Object, _webdownloader.Object, _unitOfWork.Object);
+
+        _sunriseSunsetRepository = new Mock<ISunriseSunsetRepository>();
+        _unitOfWork.Setup(x => x.SunriseSunsets).Returns(_sunriseSunsetRepository.Object);
     }
 
     [Test]

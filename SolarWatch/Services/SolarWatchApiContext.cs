@@ -41,22 +41,6 @@ public class SolarWatchApiContext : DbContext
                 v => DateOnly.FromDateTime(v)) // DateTime to DateOnly
             .HasColumnType("date");
         
-        // Configure the primary key and foreign key relationship
-        /*
-        modelBuilder.Entity<SunriseAndSunset>()
-            .HasKey(s => s.Id);  // Set the primary key
-            */
-/*
-        modelBuilder.Entity<SunriseAndSunset>()
-            .Property(s => s.CityId)
-            .IsRequired();  // Make CityId required
-            */
-/*
-        modelBuilder.Entity<SunriseAndSunset>()
-            .HasOne(s => s.City)  // Define the relationship
-            .WithMany()  // No collection in City
-            .HasForeignKey(s => s.CityId); // Specify the foreign key
-  */      
         base.OnModelCreating(modelBuilder);
     }
 }
