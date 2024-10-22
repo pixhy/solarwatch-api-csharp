@@ -32,7 +32,7 @@ builder.Services.AddScoped<ISunriseSunsetService>(provider =>
 builder.Services.AddDbContext<SolarWatchApiContext>(options =>
 {
     options.UseSqlServer(
-        "Server=localhost,1433;Database=Solarwatch;User Id=sa;Password=Cicacica!;Encrypt=false;");
+        "Server=mssql,1433;Database=Solarwatch;User Id=sa;Password=Cicacica!;Encrypt=false;");
     
 });
 builder.Services.AddScoped<ISunriseSunsetRepository, SunriseSunsetRepository>();
