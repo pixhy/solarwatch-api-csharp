@@ -1,0 +1,15 @@
+﻿services:
+  solarwatch:
+    image: solarwatch
+    build:
+      context: .
+      dockerfile: SolarWatch\Dockerfile
+    ports:
+      - "8080:8080"
+  mssql:
+    image: mcr.microsoft.com/mssql/server
+    environment:
+      ACCEPT_EULA: Y
+      SA_PASSWORD: Cicacica!
+    ports:
+      - "1433:1433"
