@@ -85,22 +85,50 @@ input {
   height: 32px;
 }
 
-.suggestions {
-  grid-area: suggestions;
+
+.country-name {
+  padding-top: 10px;
+  font-size: 20px;
 }
 
 .city-name {
   grid-area: city-name;
   height: 10vh;
+  display: flex;
+  align-items: center;
+  font-size: 30px;
+}
+
+.city-name>* {
+  width: 100%;
 }
 
 .city-sunrisesunset {
   grid-area: city-sunrisesunset;
 }
 
+.select-date>* {
+  width: 100%;
+}
+
 .select-date {
   grid-area: select-date;
   font-size: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.date-picker {
+  padding-top: 20px;
+}
+
+
+.arrow {
+  max-width: 16px;
+  height: auto;
+  padding-left: 5px;
+  padding-right: 5px;
+
 }
 
 .search-history {
@@ -112,8 +140,8 @@ input {
   color: rgb(27, 126, 235);
   display: grid;
   grid-template-areas:
-    'suggestions city-name select-date'
-    'suggestions city-sunrisesunset search-history';
+    'city-name select-date'
+    'city-sunrisesunset search-history';
   gap: 30px;
   padding-left: 5%;
   padding-right: 5%;
@@ -176,4 +204,14 @@ button.login-button {
 
 .login-form input {
   width: 200px;
+}
+
+.login-for-history {
+  margin-top: 20px;
+  font-size: 15px;
+}
+
+.user-search-history {
+  margin-top: 18px;
+  font-size: 20px;
 }

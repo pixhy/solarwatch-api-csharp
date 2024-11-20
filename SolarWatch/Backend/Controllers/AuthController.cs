@@ -5,7 +5,7 @@ using SolarWatch.Backend.Contracts;
 namespace SolarWatch.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("/api/[controller]")]
 public class AuthController : ControllerBase
 {
     private readonly IAuthService _authenticationService;
@@ -31,7 +31,7 @@ public class AuthController : ControllerBase
             return BadRequest(ModelState);
         }
 
-        return CreatedAtAction(nameof(Register), new RegistrationResponse(result.Email, result.UserName));
+        return CreatedAtAction(nameof(Register), new RegistrationResponse(result.UserName, result.Token));
     }
 
     private void AddErrors(AuthResult result)
@@ -43,14 +43,14 @@ public class AuthController : ControllerBase
     }
     
     [HttpPost("Login")]
-    public async Task<ActionResult<AuthResponse>> Authenticate([FromBody] AuthRequest request)
+    public async Task<ActionResult<LoginResponse>> Login([FromBody] AuthRequest request)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
 
-        var result = await _authenticationService.LoginAsync(request.Email, request.Password);
+        var result = await _authenticationService.LoginAsync(request.Username, request.Password);
 
         if (!result.Success)
         {
@@ -58,7 +58,7 @@ public class AuthController : ControllerBase
             return BadRequest(ModelState);
         }
 
-        return Ok(new AuthResponse(result.Email, result.UserName, result.Token));
+        return Ok(new LoginResponse(result.UserName, result.Token));
     }
 
 }

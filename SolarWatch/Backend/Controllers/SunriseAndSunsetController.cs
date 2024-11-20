@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SolarWatch.Services;
@@ -8,11 +9,9 @@ namespace SolarWatch.Controllers;
 [ApiController]
 [Route ("api/v1/[controller]")]
 public class SunriseAndSunsetController(
-   ISunriseSunsetService sunriseSunsetService)
+   ISunriseSunsetService sunriseSunsetService, IUnitOfWork unitOfWork)
    : ControllerBase
 {
-   private ISunriseSunsetService _sunriseSunsetService = sunriseSunsetService;
-
    [HttpGet/*,  Authorize(Roles="User, Admin")*/]
    public async Task<ActionResult<SunriseAndSunset>> GetSunriseAndSunset(string city, string date)
    {
@@ -24,13 +23,33 @@ public class SunriseAndSunsetController(
       
       try
       {
-         SunriseAndSunset? sunriseAndSunset = await _sunriseSunsetService.GetSunriseAndSunset(city, dateObject);
-         
+         SunriseAndSunset? sunriseAndSunset = await sunriseSunsetService.GetSunriseAndSunset(city, dateObject);
+
+         var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+         if (user != null)
+         {
+            UserHistoryEntry userHistoryEntry = new UserHistoryEntry(){AspNetUserId = user, City = sunriseAndSunset.City, CityId = sunriseAndSunset.CityId, CreatedAt = DateTime.Now};
+
+            unitOfWork.SunriseSunsets.AddUserHistory(userHistoryEntry);
+         }
          return Ok(sunriseAndSunset);
       }
       catch (CityNotFoundException)
       {
          return NotFound("City not found");
       }
+   }
+
+   [Authorize]
+   [HttpGet("UserHistory")]
+   public async Task<ActionResult<List<string>>> GetUserHistory()
+   {
+      var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+   
+      
+      var UH = unitOfWork.SunriseSunsets.GetUserHistory(user!);
+
+      return UH;
    }
 }

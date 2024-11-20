@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
+
 namespace SolarWatch.Services;
 
 public class SunriseSunsetRepository : ISunriseSunsetRepository
@@ -21,5 +24,24 @@ public class SunriseSunsetRepository : ISunriseSunsetRepository
     {
         dbContext.Add(sunriseAndSunset);
         dbContext.SaveChanges();
+    }
+    
+    public void AddUserHistory(UserHistoryEntry userHistoryEntry)
+    {
+        dbContext.Add(userHistoryEntry);
+        dbContext.SaveChanges();
+    }
+
+    public List<string> GetUserHistory(string userId)
+    {
+        var userHistoryEntries = dbContext.UserHistoryEntries
+            .Where(e => e.AspNetUserId == userId)
+            .Join(dbContext.Cities, entry => entry.CityId, city => city.Id, (entry, city) => new{city.Name, entry.CreatedAt, entry.CityId})
+            .GroupBy(e => e.CityId)
+            .Select(e => e.First())
+            .Skip(1)
+            .ToList();
+        
+        return new List<string>(userHistoryEntries.AsEnumerable().OrderByDescending(e => e.CreatedAt).Take(10).Select(arg => arg.Name));
     }
 }

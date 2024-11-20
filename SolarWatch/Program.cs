@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using SolarWatch.Backend.Authentication;
-using SolarWatch.Backend.Data;
 using SolarWatch.Services;
 
 
@@ -107,12 +106,6 @@ void AddDbContext()
             "Server=mssql,1433;Database=Solarwatch;User Id=sa;Password=Cicacica!;Encrypt=false;");
     
     });
-    builder.Services.AddDbContext<UsersContext>(options =>
-    {
-        options.UseSqlServer(
-            "Server=mssql,1433;Database=Solarwatch;User Id=sa;Password=Cicacica!;Encrypt=false;");
-    });
-
 }
 
 void AddIdentity()
@@ -129,7 +122,7 @@ void AddIdentity()
             options.Password.RequireLowercase = false;
         })
         .AddRoles<IdentityRole>()
-        .AddEntityFrameworkStores<UsersContext>();
+        .AddEntityFrameworkStores<SolarWatchApiContext>();
 }
 
 void AddSwagger()

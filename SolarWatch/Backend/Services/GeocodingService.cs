@@ -5,6 +5,17 @@ namespace SolarWatch.Services;
 
 public class GeocodingService(string apikey, IWebDownloader webDownloader, IUnitOfWork unitOfWork) : IGeocodingService
 {
+    private static Dictionary<string, string> _countries = new ();
+    static GeocodingService()
+    {
+
+        var countryData = JsonDocument.Parse(File.ReadAllText("Backend/Data/countries.json"));
+        foreach (var country in countryData.RootElement.EnumerateArray())
+        {
+            _countries.Add(country.GetProperty("iso2").GetString()!, country.GetProperty("country").GetString()!);
+        }
+        Console.WriteLine($"Loaded {_countries.Comparer} country names.");
+    }
     public async Task<City> GetCityByName(string city)
     {
         var cityObj = unitOfWork.Cities.GetCityByName(city);
@@ -41,13 +52,14 @@ public class GeocodingService(string apikey, IWebDownloader webDownloader, IUnit
         {
             state = stateElement.GetString()!;
         }
+
         return new City()
         {
             
             Name = name.GetString()!,
             Latitude = lat.GetDouble(),
             Longitude = lon.GetDouble(),
-            Country = country.GetString()!,
+            Country = _countries[country.GetString()!],
             State = state
         };
     }

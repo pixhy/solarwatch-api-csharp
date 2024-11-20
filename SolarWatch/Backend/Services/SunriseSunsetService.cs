@@ -23,7 +23,7 @@ public class SunriseSunsetService(IGeocodingService geocodingService, IWebDownlo
         var dateString = date.ToString("yyyy-MM-dd");
         
         string url =
-             $"https://api.sunrise-sunset.org/json?lat={lat}&lng={lng}&date={dateString}";
+             $"https://api.sunrise-sunset.org/json?lat={lat}&lng={lng}&date={dateString}&tzid=CET";
         
         var sunriseSunsetData = webDownloader.GetStringByUrl(url);
 

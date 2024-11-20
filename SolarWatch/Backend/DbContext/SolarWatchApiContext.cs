@@ -2,10 +2,12 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq.Expressions;
 using System.Reflection;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace SolarWatch.Services;
 
-public class SolarWatchApiContext : DbContext
+public class SolarWatchApiContext : IdentityDbContext<IdentityUser, IdentityRole, string>
 {
     public SolarWatchApiContext(DbContextOptions<SolarWatchApiContext> options)
         : base(options)
@@ -14,6 +16,8 @@ public class SolarWatchApiContext : DbContext
 
     public DbSet<City> Cities { get; set; }
     public DbSet<SunriseAndSunset> SunriseAndSunsets { get; set; }
+    
+    public DbSet<UserHistoryEntry> UserHistoryEntries { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

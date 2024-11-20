@@ -1,3 +1,3 @@
 namespace SolarWatch.Backend.Contracts;
 
-public record AuthRequest(string Email, string Password);
+public record AuthRequest(string Username, string Password);

@@ -2,9 +2,9 @@ import solarwatchlogo from '../assets/solarwatchlogo.png'
 import magnifyingglass from '../assets/fehernagyito.png'
 import { useNavigate } from 'react-router-dom';
 
-function Header({searchedCity, setSearchedCity}){
+function Header({setSearchedCity, token, setToken}){
 
-
+  
   const navigate = useNavigate();
 
   function handleSubmit(e){
@@ -12,23 +12,11 @@ function Header({searchedCity, setSearchedCity}){
     e.preventDefault();
     const city = e.target.searchfield.value;
 
-    const date = new Date();
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;  
-    const day = date.getDate();
-    const currentDate = `${year}-${month}-${day}`;
+    setSearchedCity(city);
+  }
 
-    const url = `/api/v1/SunriseAndSunset?city=${city}&date=${currentDate}`
-  
-    async function fetchSunriseAndSunset() {
-      const response = await fetch(url);
-      if (response.ok) {
-        const data = await response.json();
-        setSearchedCity(data);
-        console.log(data)
-      }
-    }
-    fetchSunriseAndSunset();
+  function logout(){
+    setToken(null)
   }
 
     return (
@@ -43,7 +31,7 @@ function Header({searchedCity, setSearchedCity}){
               <form onSubmit={handleSubmit}>
                 <input className="searchfield" placeholder="search..." name="searchfield" />
               </form>
-              <button onClick={()=> navigate("/login")} className="login">login</button>
+              {!token ? <button onClick={()=> navigate("/login")} className="login">login</button> : <button onClick={logout} className="login">logout</button>}
             </div>
           </div>
         </div>
