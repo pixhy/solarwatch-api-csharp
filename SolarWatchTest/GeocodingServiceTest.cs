@@ -27,7 +27,7 @@ public class Tests
     {
         
        _webdownloader.Setup(x => x.GetStringByUrl(It.IsAny<string>()))
-            .ReturnsAsync("[{\"name\": \"Test\", \"lat\": 47.4979937,\n    \"lon\": 19.0403594, \"country\": \"valami\", \"state\": \"valami\"}]");
+            .ReturnsAsync("[{\"name\": \"Test\", \"lat\": 47.4979937,\n    \"lon\": 19.0403594, \"country\": \"HU\", \"state\": \"valami\"}]");
 
         var result = await _geocodingService.GetCityByName("Test");
         Assert.That(result.Longitude, Is.EqualTo(19.0403594).Within(0.000001));

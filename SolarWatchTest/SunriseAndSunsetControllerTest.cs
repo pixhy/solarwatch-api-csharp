@@ -1,5 +1,9 @@
+using System.Security.Claims;
+using System.Security.Principal;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Moq;
 using SolarWatch.Controllers;
 using SolarWatch.Services;
@@ -10,20 +14,37 @@ public class SunriseAndSunsetControllerTest
 {
     private Mock<ISunriseSunsetService> _sunriseSunsetService;
     private SunriseAndSunsetController _sunriseAndSunsetController;
+    private Mock<IUnitOfWork> _unitOfWork;
 
     [SetUp]
 
     public void SetUp()
     {
+        _unitOfWork = new Mock<IUnitOfWork>();
         _sunriseSunsetService = new Mock<ISunriseSunsetService>();
-        _sunriseAndSunsetController = new SunriseAndSunsetController(_sunriseSunsetService.Object);
+        _sunriseAndSunsetController = new SunriseAndSunsetController(_sunriseSunsetService.Object, _unitOfWork.Object);
         
         
+        var identity = new GenericIdentity("username");
+
+        var principal = new ClaimsPrincipal(identity);
+
+        var context = new DefaultHttpContext()
+        {
+            User = principal
+        };
+
+        _sunriseAndSunsetController.ControllerContext = new ControllerContext
+        {
+            HttpContext = context
+        };
     }
 
     [Test]
     public async Task GetSunriseAndSunsetTest()
     {
+        
+        
         string city = "test";
         string date = "2024-10-09";
         var dateObject = DateOnly.Parse(date);
