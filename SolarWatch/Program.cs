@@ -57,6 +57,14 @@ void AddServices()
             configuration.GetValue<string>("OpenWeatherMapAPIKey");
         return new GeocodingService(key, new WebDownloader(), unitOfWork);
     });
+    
+    builder.Services.AddScoped<IForecastService>(provider =>
+    {
+        var configuration = provider.GetRequiredService<IConfiguration>();
+        var key =
+            configuration.GetValue<string>("WeatherAPIKey");
+        return new ForecastService(key, new WebDownloader());
+    });
 
     builder.Services.AddScoped<ISunriseSunsetService>(provider =>
     {
@@ -103,7 +111,7 @@ void AddDbContext()
     builder.Services.AddDbContext<SolarWatchApiContext>(options =>
     {
         options.UseSqlServer(
-            "Server=mssql,1433;Database=Solarwatch;User Id=sa;Password=Cicacica!;Encrypt=false;");
+            "Server=localhost,1433;Database=Solarwatch;User Id=sa;Password=Cicacica!;Encrypt=false;");
     
     });
 }

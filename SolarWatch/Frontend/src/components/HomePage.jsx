@@ -19,6 +19,7 @@ function HomePage(){
   const [date, setDate] = useState(currentDate);
   const [currentCity, setCurrentCity] = useState(null);
   const [searchHistory, setSearchHistory] = useState(null);
+  const [forecast, setForecast] = useState(null);
 
 
 
@@ -85,7 +86,25 @@ function HomePage(){
     
   },[currentCity])
 
-  if(!currentCity){
+
+  useEffect(() => {
+    
+    const url = `/api/v1/Forecast?name=${searchedCity}`
+    
+    async function fetchForecastData(){
+
+      const response = await fetch(url)
+
+      if(response.ok){
+        const data = await response.json();
+        setForecast(data)
+        console.log(data)
+      }
+    }
+    fetchForecastData()
+  },[searchedCity])
+
+  if(!currentCity || !forecast){
     return(<div>Loading..</div>)
   }
 
@@ -101,13 +120,20 @@ function HomePage(){
               </div>
           </div>
 
-          <div className="city-sunrisesunset">sunrise and sunset
+          <div className="city-sunrise">sunrise
               <div className='time-data'>
                   <div>
-                      <img src={sunrise}/> {currentCity.sunrise}
+                      <img src={sunrise}/>
+                      <div>{currentCity.sunrise}</div>
                   </div>
+              </div>
+          </div>
+
+          <div className="city-sunset">sunset
+              <div className='time-data'>
                   <div>
-                      <img src={sunset}/> {currentCity.sunset}
+                      <img src={sunset}/>
+                      <div>{currentCity.sunset}</div>
                   </div>
               </div>
           </div>
@@ -125,7 +151,21 @@ function HomePage(){
           <div className="search-history">search history
             {token && searchHistory ? <>{searchHistory.map(s => <div className='user-search-history' onClick={() => setSearchedCity(s) }>{s}</div>)}</> : <div className='login-for-history'>You have to login to view your search history.</div>}
           </div>
-          
+
+          <div className="city-forecast">
+            <div>
+                <div>today's forecast</div>
+                <div className='forecast-data'>
+                {Object.entries(forecast.forecastDictionary).map(h => 
+                <div className="forecast-hour">
+                  <div>{h[0].slice(-5)}</div>
+                  <img src={h[1][1]}/>
+                  <div>{h[1][0]}°C </div>
+                </div>
+                )}
+            </div>
+          </div>
+        </div>
       </div>
       </>
   )
