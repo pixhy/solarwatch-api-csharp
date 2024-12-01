@@ -27,8 +27,14 @@ public class GeocodingService(string apikey, IWebDownloader webDownloader, IUnit
             $"http://api.openweathermap.org/geo/1.0/direct?q={city}&limit=1&appid={apikey}";
 
         var cityData = webDownloader.GetStringByUrl(url);
-
+        
         var newCity = ProcessCityData(await cityData);
+
+        var findOldCity = unitOfWork.Cities.GetCityByName(newCity.Name);
+        if (findOldCity != null)
+        {
+            return findOldCity;
+        }
         unitOfWork.Cities.AddCity(newCity);
         return newCity;
     }

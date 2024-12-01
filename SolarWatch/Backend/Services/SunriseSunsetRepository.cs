@@ -39,7 +39,6 @@ public class SunriseSunsetRepository : ISunriseSunsetRepository
             .Join(dbContext.Cities, entry => entry.CityId, city => city.Id, (entry, city) => new{city.Name, entry.CreatedAt, entry.CityId})
             .GroupBy(e => e.CityId)
             .Select(e => e.First())
-            .Skip(1)
             .ToList();
         
         return new List<string>(userHistoryEntries.AsEnumerable().OrderByDescending(e => e.CreatedAt).Take(10).Select(arg => arg.Name));

@@ -13,6 +13,7 @@ function Header({setSearchedCity, token, setToken}){
     const city = e.target.searchfield.value;
 
     setSearchedCity(city);
+    e.target.searchfield.value = ""
   }
 
   function logout(){

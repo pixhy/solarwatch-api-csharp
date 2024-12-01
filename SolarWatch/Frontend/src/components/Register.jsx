@@ -53,25 +53,25 @@ function Register(){
                         <label>Email</label>
                     </div>
                     <div>
-                        <input name="email"/>
+                        <input name="email" autoComplete="off"/>
                     </div>
                     <div>
                         <label>Username</label>
                     </div>
                     <div>
-                        <input name="username"/>
+                        <input name="username" autoComplete="off"/>
                     </div>
                     <div>
                         <label>Password</label>
                     </div>
                     <div>
-                        <input name="password"/>
+                        <input name="password" type="password"/>
                     </div>
                     <div>
                         <label>Password again</label>
                     </div>
                     <div>
-                        <input name="passwordcheck"/>
+                        <input name="passwordcheck" type="password"/>
                     </div>
                     <div>
                         <button className="login-button">register</button>

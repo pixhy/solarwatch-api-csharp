@@ -23,23 +23,23 @@ function HomePage(){
 
 
 
-  function handleClick(direction){
+  function handleClick(direction) {
     let moveDate;
-
-    if (direction == "prev"){
-        moveDate = new Date(Number(new Date(date)) - 60*60*24*1000) 
-        
+  
+    if (direction == "prev") {
+      moveDate = new Date(Number(new Date(date)) - 60 * 60 * 24 * 1000);
+    } else if (direction == "next") {
+      moveDate = new Date(Number(new Date(date)) + 60 * 60 * 24 * 1000);
     }
-    else if(direction == "next"){
-        moveDate = new Date(Number(new Date(date)) + 60*60*24*1000) 
-    }
-
-    year = moveDate.getFullYear();
-    month = moveDate.getMonth() + 1;  
-    day = moveDate.getDate().toString().padStart(2, "0");
+  
+    const year = moveDate.getFullYear();
+    const month = (moveDate.getMonth() + 1).toString().padStart(2, "0");
+    const day = moveDate.getDate().toString().padStart(2, "0");
+  
     const movedDate = `${year}-${month}-${day}`;
-    setDate(movedDate)
+    setDate(movedDate);
   }
+  
 
   useEffect(() => {
     if(!date) return;

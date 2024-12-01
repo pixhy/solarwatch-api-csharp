@@ -47,13 +47,13 @@ function Login(){
                         <label>Username</label>
                     </div>
                     <div>
-                        <input name="username"/>
+                        <input name="username" autoComplete="off"/>
                     </div>
                     <div>
                         <label>Password</label>
                     </div>
                     <div>
-                        <input name="password"/>
+                        <input name="password" type="password"/>
                     </div>
                     <div>
                         <button className="login-button">login</button>

@@ -112,7 +112,7 @@ input {
 }
 .city-forecast{
   grid-area: city-forecast;
-  font-size: 15px;
+  font-size: 20px;
 }
 .forecast-data{
   overflow-x: scroll;
@@ -125,6 +125,7 @@ input {
   display: inline-block;
   padding-right: 20px;
   padding-bottom: 20px;
+  font-size: 15px;
 }
 
 .select-date>* {
@@ -250,4 +251,8 @@ button.login-button {
 .user-search-history {
   margin-top: 18px;
   font-size: 20px;
+}
+.user-search-history:hover{
+  cursor: pointer;
+  color: white;
 }
