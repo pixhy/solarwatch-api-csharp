@@ -2,9 +2,10 @@
 
 Welcome to **SolarWatch**, a web application that provides users with weather-related features, including sunrise and sunset timings, today's weather forecast, and a history of their searches. This project demonstrates a full-stack web application built using modern technologies.
 
-## Demo Video
+## 🎥 Demo Video 
 
-[Insert here]
+https://github.com/user-attachments/assets/b9924bc7-28ee-4f7a-b952-b0bba1091da9
+
 
 ## 🚀 Features
 
