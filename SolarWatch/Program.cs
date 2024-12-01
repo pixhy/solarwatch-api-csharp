@@ -25,10 +25,16 @@ AddSwagger();
 
 var app = builder.Build();
 
-using var scope = app.Services.CreateScope(); // AuthenticationSeeder is a scoped service, therefore we need a scope instance to access it
-var authenticationSeeder = scope.ServiceProvider.GetRequiredService<AuthenticationSeeder>();
-authenticationSeeder.AddRoles();
-authenticationSeeder.AddAdmin();
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<SolarWatchApiContext>();
+    dbContext.Database.Migrate();
+    
+    var authenticationSeeder = scope.ServiceProvider.GetRequiredService<AuthenticationSeeder>();
+    authenticationSeeder.AddRoles();
+    authenticationSeeder.AddAdmin();
+}
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -36,6 +42,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 
 app.UseHttpsRedirection();
 
@@ -107,11 +114,11 @@ void AddAuthentication()
 
 void AddDbContext()
 {
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
     
     builder.Services.AddDbContext<SolarWatchApiContext>(options =>
     {
-        options.UseSqlServer(
-            "Server=localhost,1433;Database=Solarwatch;User Id=sa;Password=Cicacica!;Encrypt=false;");
+        options.UseSqlServer(connectionString);
     
     });
 }

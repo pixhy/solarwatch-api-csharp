@@ -51,11 +51,9 @@ function HomePage(){
           "Authorization": `Bearer ${token}` 
         }
       });
-      console.log(response);
       if (response.ok) {
         const data = await response.json();
         setCurrentCity(data);
-        console.log(data)
       }
     }
     fetchSunriseAndSunset();
@@ -79,7 +77,6 @@ function HomePage(){
       if (response.ok) {
         const data = await response.json();
         setSearchHistory(data);
-        console.log(data)
       }
     }
     fetchSearchHistory()
@@ -98,7 +95,6 @@ function HomePage(){
       if(response.ok){
         const data = await response.json();
         setForecast(data)
-        console.log(data)
       }
     }
     fetchForecastData()

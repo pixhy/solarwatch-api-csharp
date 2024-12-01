@@ -26,7 +26,6 @@ function Login(){
             const response = await fetch('/api/Auth/Login', requestOptions);
             if (response.ok) {
               const data = await response.json();
-              console.log(data.token);
               setToken(data.token)
               setErrorMessage(null)
               navigate('/');
