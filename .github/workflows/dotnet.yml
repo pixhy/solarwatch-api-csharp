@@ -24,7 +24,11 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Config
-      run: echo "${{ secrets.TEST_CONFIG }}" > SolarWatch/appsettings.json
+      shell: bash
+      env:
+        CONFIG_FILE: ${{ secrets.TEST_CONFIG }}
+      run: |
+        echo -n "$CONFIG_FILE" > SolarWatch/appsettings.json
     - name: Build
       run: dotnet build --no-restore
     - name: Test
