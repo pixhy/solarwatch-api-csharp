@@ -4,8 +4,7 @@ Welcome to **SolarWatch**, a web application that provides users with weather-re
 
 ## 🎥 Demo Video 
 
-https://github.com/user-attachments/assets/b9924bc7-28ee-4f7a-b952-b0bba1091da9
-
+https://github.com/user-attachments/assets/510a4226-a5df-4ac9-81a5-815dd6bf29c9
 
 ## 🚀 Features
 
