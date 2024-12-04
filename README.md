@@ -92,9 +92,9 @@ Solarwatch/
 
 │
 ├── Frontend/           # React project
-│   ├── src/
-│   │   ├── components/ # Reusable React components
-│   │   └── assets/     # Pictures for website
+│   └── src/
+│       ├── components/ # Reusable React components
+│       └── assets/     # Pictures for website
 │
 ├── docker-compose.yml  # Docker Compose configuration
 └── README.md           # Project documentation
