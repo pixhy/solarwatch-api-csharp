@@ -20,18 +20,18 @@ public class SolarWatchWebApplicationFactory : WebApplicationFactory<Program>
         {
             //Get the previous DbContextOptions registrations 
             var solarWatchDbContextDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<SolarWatchApiContext>));
-
             
             //Remove the previous DbContextOptions registrations
-            services.Remove(solarWatchDbContextDescriptor);
-
+            if (solarWatchDbContextDescriptor != null)
+            {
+                services.Remove(solarWatchDbContextDescriptor);
+            }
             
             //Add new DbContextOptions for our two contexts, this time with inmemory db 
             services.AddDbContext<SolarWatchApiContext>(options =>
             {
                 options.UseInMemoryDatabase(_dbName);
             });
-
             
             //We will need to initialize our in memory databases. 
             //Since DbContexts are scoped services, we create a scope
@@ -48,13 +48,12 @@ public class SolarWatchWebApplicationFactory : WebApplicationFactory<Program>
     [Collection("IntegrationTests")] //this is to avoid problems with tests running in parallel
     public class MyControllerIntegrationTest
     {
-        private readonly SolarWatchWebApplicationFactory _app;
         private readonly HttpClient _client;
     
         public MyControllerIntegrationTest()
         {
-            _app = new SolarWatchWebApplicationFactory();
-            _client = _app.CreateClient();
+            var app = new SolarWatchWebApplicationFactory();
+            _client = app.CreateClient();
         }
 
         [Fact]
@@ -69,14 +68,19 @@ public class SolarWatchWebApplicationFactory : WebApplicationFactory<Program>
             
             
             var data = await response.Content.ReadFromJsonAsync<SunriseAndSunset>();
-            Assert.Equal(result.Id, data.Id);
-            Assert.Equal(result.CityId, data.CityId);
-            Assert.Equal(result.Date, data.Date);
-            Assert.Equal(result.Sunrise, data.Sunrise);
-            Assert.Equal(result.Sunset, data.Sunset);
-            Assert.Equal(result.City.Id, data.City.Id);
-            Assert.Equal(result.City.Name, data.City.Name);
-            Assert.Equal(result.City.State, data.City.State);
+            Assert.NotNull(data);
+            if (data != null)
+            {
+                Assert.Equal(result.Id, data.Id);
+                Assert.Equal(result.CityId, data.CityId);
+                Assert.Equal(result.Date, data.Date);
+                Assert.Equal(result.Sunrise, data.Sunrise);
+                Assert.Equal(result.Sunset, data.Sunset);
+                Assert.Equal(result.City.Id, data.City.Id);
+                Assert.Equal(result.City.Name, data.City.Name);
+                Assert.Equal(result.City.State, data.City.State);
+            }
+
         }
     }
 
