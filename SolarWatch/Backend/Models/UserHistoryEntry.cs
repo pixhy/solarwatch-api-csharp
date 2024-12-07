@@ -1,14 +1,14 @@
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Identity;
+using SolarWatch.Services;
 
-namespace SolarWatch.Services;
+namespace SolarWatch.Backend.Models;
 
 public class UserHistoryEntry
 {
     [Key]
-    public int Id { get; set; }
-    public string AspNetUserId { get; set; }
+    public int Id { get; init; }
+    public required string AspNetUserId { get; init; }
     public int CityId { get; init; }
-    public City City {get ; set; }
-    public DateTime CreatedAt { get; set; }
+    public required City City {get ; init; }
+    public DateTime CreatedAt { get; init; }
 }

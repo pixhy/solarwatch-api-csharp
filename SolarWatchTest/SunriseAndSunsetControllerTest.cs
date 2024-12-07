@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Moq;
+using SolarWatch.Backend.Models;
 using SolarWatch.Controllers;
 using SolarWatch.Services;
 

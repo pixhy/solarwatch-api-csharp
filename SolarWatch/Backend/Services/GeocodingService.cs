@@ -1,9 +1,10 @@
 using System.Net;
 using System.Text.Json;
+using SolarWatch.Backend.Models;
 
 namespace SolarWatch.Services;
 
-public class GeocodingService(string apikey, IWebDownloader webDownloader, IUnitOfWork unitOfWork) : IGeocodingService
+public class GeocodingService(string? apikey, IWebDownloader webDownloader, IUnitOfWork unitOfWork) : IGeocodingService
 {
     private static Dictionary<string, string> _countries = new ();
     static GeocodingService()

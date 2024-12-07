@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SolarWatch.Backend.Models;
 using SolarWatch.Services;
 
 namespace SolarWatch.Controllers;
@@ -43,13 +44,12 @@ public class SunriseAndSunsetController(
 
    [Authorize]
    [HttpGet("UserHistory")]
-   public async Task<ActionResult<List<string>>> GetUserHistory()
+   public ActionResult<List<string>> GetUserHistory()
    {
       var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
-   
       
-      var UH = unitOfWork.SunriseSunsets.GetUserHistory(user!);
+      var userHistory = unitOfWork.SunriseSunsets.GetUserHistory(user!);
 
-      return UH;
+      return Ok(userHistory);
    }
 }

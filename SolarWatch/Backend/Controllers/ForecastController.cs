@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using SolarWatch.Backend.Models;
 using SolarWatch.Services;
 
 namespace SolarWatch.Controllers;

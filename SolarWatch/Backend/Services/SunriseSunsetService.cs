@@ -2,6 +2,7 @@ using System.Globalization;
 using System.Net;
 using System.Text.Json;
 using Microsoft.AspNetCore.Authentication;
+using SolarWatch.Backend.Models;
 
 namespace SolarWatch.Services;
 

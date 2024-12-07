@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using SolarWatch.Backend.Models;
 using SolarWatch.Services;
 
 namespace SolarWatchIntegrationTest;

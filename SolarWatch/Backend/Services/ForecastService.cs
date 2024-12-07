@@ -1,8 +1,9 @@
 using System.Text.Json;
+using SolarWatch.Backend.Models;
 
 namespace SolarWatch.Services;
 
-public class ForecastService(string apikey, IWebDownloader webDownloader) : IForecastService
+public class ForecastService(string? apikey, IWebDownloader webDownloader) : IForecastService
 {
     
     

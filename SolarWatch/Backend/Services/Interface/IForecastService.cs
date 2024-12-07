@@ -1,3 +1,5 @@
+using SolarWatch.Backend.Models;
+
 namespace SolarWatch.Services;
 
 public interface IForecastService

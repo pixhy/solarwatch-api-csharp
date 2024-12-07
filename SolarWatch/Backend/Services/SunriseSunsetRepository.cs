@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
+using SolarWatch.Backend.Models;
 
 namespace SolarWatch.Services;
 

@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -96,6 +97,12 @@ void AddAuthentication()
 {
     var jwtSettings = builder.Configuration.GetSection("Authentication");
 
+    var issuerSigningKey = jwtSettings["IssuerSigningKey"];
+    if (issuerSigningKey == null)
+    {
+        Console.WriteLine("Authentication settings not found");
+        Process.GetCurrentProcess().Kill();
+    }
     builder.Services
         .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         .AddJwtBearer(options =>
@@ -110,7 +117,7 @@ void AddAuthentication()
                 ValidIssuer = jwtSettings["ValidIssuer"],
                 ValidAudience = jwtSettings["ValidAudience"],
                 IssuerSigningKey = new SymmetricSecurityKey(
-                    Encoding.UTF8.GetBytes(jwtSettings["IssuerSigningKey"])
+                    Encoding.UTF8.GetBytes(issuerSigningKey!)
                 ),
             };
         });
