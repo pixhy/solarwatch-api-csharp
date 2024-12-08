@@ -13,7 +13,7 @@ public class SunriseAndSunsetController(
    ISunriseSunsetService sunriseSunsetService, IUnitOfWork unitOfWork)
    : ControllerBase
 {
-   [HttpGet/*,  Authorize(Roles="User, Admin")*/]
+   [HttpGet]
    public async Task<ActionResult<SunriseAndSunset>> GetSunriseAndSunset(string city, string date)
    {
       DateOnly dateObject;

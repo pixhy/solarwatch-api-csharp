@@ -32,12 +32,14 @@ using (var scope = app.Services.CreateScope())
     
     if (dbContext.Database.IsRelational())
     {
+        // This code does not run in integration tests
+        
         dbContext.Database.Migrate();
-    }
   
-    var authenticationSeeder = scope.ServiceProvider.GetRequiredService<AuthenticationSeeder>();
-    authenticationSeeder.AddRoles();
-    authenticationSeeder.AddAdmin();
+        var authenticationSeeder = scope.ServiceProvider.GetRequiredService<AuthenticationSeeder>();
+        authenticationSeeder.AddRoles();
+        authenticationSeeder.AddAdmin();
+    }
 }
 
 
