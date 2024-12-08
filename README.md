@@ -38,6 +38,17 @@ https://github.com/user-attachments/assets/510a4226-a5df-4ac9-81a5-815dd6bf29c9
 ### Docker
 - Dockerized application for streamlined deployment and local setup.
 
+## Automated Tests
+
+This project includes automated tests that are run on every push and pull request using **GitHub Actions**. These tests help ensure code quality and catch potential issues early in the development process.
+
+The test workflows are configured in the [`Github Actions`](https://github.com/pixhy/solarwatch-api-csharp/actions) tab.
+
+### Benefits:
+- **Continuous Integration:** Ensures all changes pass the tests before being merged.
+- **Early Issue Detection:** Catches bugs before they reach production.
+- **Improved Collaboration:** Makes code reviews more efficient by automating basic checks.
+
 ## 🛠️ Installation and Setup
 
 ### Prerequisites
