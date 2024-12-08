@@ -34,6 +34,7 @@ public class SunriseAndSunsetController(
 
             unitOfWork.SunriseSunsets.AddUserHistory(userHistoryEntry);
          }
+         unitOfWork.SaveChanges();
          return Ok(sunriseAndSunset);
       }
       catch (CityNotFoundException)
@@ -49,7 +50,9 @@ public class SunriseAndSunsetController(
       var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
       
       var userHistory = unitOfWork.SunriseSunsets.GetUserHistory(user!);
-
+      
+      unitOfWork.SaveChanges();
+      
       return Ok(userHistory);
    }
 }

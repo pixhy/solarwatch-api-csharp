@@ -24,13 +24,11 @@ public class SunriseSunsetRepository : ISunriseSunsetRepository
     public void AddSunriseAndSunset(SunriseAndSunset sunriseAndSunset)
     {
         dbContext.Add(sunriseAndSunset);
-        dbContext.SaveChanges();
     }
     
     public void AddUserHistory(UserHistoryEntry userHistoryEntry)
     {
         dbContext.Add(userHistoryEntry);
-        dbContext.SaveChanges();
     }
 
     public List<string> GetUserHistory(string userId)

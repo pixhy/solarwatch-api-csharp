@@ -18,18 +18,15 @@ public class CityRepository(SolarWatchApiContext dbContext) : ICityRepository
     public void AddCity(City city)
     {
         dbContext.Add(city);
-        dbContext.SaveChanges();
     }
 
     public void DeleteCity(City city)
     {
         dbContext.Remove(city);
-        dbContext.SaveChanges();
     }
 
     public void UpdateCity(City city)
     {  
         dbContext.Update(city);
-        dbContext.SaveChanges();
     }
 }

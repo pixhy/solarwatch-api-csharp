@@ -13,6 +13,11 @@ public class UnitOfWork : IUnitOfWork
         SunriseSunsets = new SunriseSunsetRepository(_dbContext);
     }
 
+    public void SaveChanges()
+    {
+        _dbContext.SaveChanges();
+    }
+
     public void Dispose()
     {
         _dbContext.Dispose();
