@@ -44,11 +44,6 @@ This project includes automated tests that are run on every push and pull reques
 
 The test workflows are configured in the [`Github Actions`](https://github.com/pixhy/solarwatch-api-csharp/actions) tab.
 
-### Benefits:
-- **Continuous Integration:** Ensures all changes pass the tests before being merged.
-- **Early Issue Detection:** Catches bugs before they reach production.
-- **Improved Collaboration:** Makes code reviews more efficient by automating basic checks.
-
 ## 🛠️ Installation and Setup
 
 ### Prerequisites
@@ -63,14 +58,26 @@ git clone https://github.com/pixhy/solarwatch-api-csharp
 2. **Build and Start the Application (using Docker Compose)**:
    - Add docker to your services
    - Run docker-compose up in the `docker-compose.yml` file.
+   
 
-3. **Configuration settings**: Ensure the following settings are configured in `appsettings.json`:
+3. **Configuration settings**: 
 
-- `DefaultConnection`: Connection string for your SQL Server.
-- `OpenWeatherMapAPIKey`: API key for OpenWeatherMapAPI for getting geolocations.
-- `WeatherAPIKey`: API key for the weather forecast.
+An empty configuration file `appsettings_empty.json` is provided in the project. Copy its contents to `appsettings.json`.
 
-An empty configuration file `appsettings_empty.json` is provided in the project.
+Ensure the following settings are configured in `appsettings.json`:
+
+- `DefaultConnection`: Connection string for your SQL Server. If you are using Docker Compose, use the connection string from the sample `appsettings_empty.json` file.
+
+
+- The connection string has to use the same password that is set in the compose file as SA_PASSWORD!
+
+
+- `OpenWeatherMapAPIKey`: API key for [OpenWeatherMapAPI](https://openweathermap.org/api) for getting geolocations.
+
+
+- `WeatherAPIKey`: API key for the [weather forecast](https://www.weatherapi.com/). 
+
+
 
 4. **Frontend setup**:
 - Navigate to the frontend folder:
